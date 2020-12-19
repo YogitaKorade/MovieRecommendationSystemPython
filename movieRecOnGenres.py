@@ -13,9 +13,10 @@ data=pd.read_csv('movie_metadata.csv')
 #print(data.head())
 
 #filling null vales for columns we want
-data['actor_2_name']=data['actor_2_name'].replace(np.nan,'unlnown')
+data['actor_2_name']=data['actor_2_name'].replace(np.nan,'unknown')
 data['actor_3_name']=data['actor_3_name'].replace(np.nan,'unknown')
-data['actor_1_name']=data['actor_1_name'].replace(np.nan,'unlnown')
+data['actor_1_name']=data['actor_1_name'].replace(np.nan,'unk
+                                                  nown')
 data['director_name']=data['director_name'].replace(np.nan,'unknown')
 
 window=tk.Tk()
@@ -42,14 +43,14 @@ def selectedFunction():
     l2.configure(text=ComboGrp1.get())
     v=l2.cget('text')
     v=v.strip()
-    cv=CountVectorizer()
-    count_matrix=cv.fit_transform(data['comb_feature'])
+    cv=CountVectorizer()                
+    count_matrix=cv.fit_transform(data['comb_feature'])     #Transform into vectors
     #print(count_matrix)
 
     sim=cosine_similarity(count_matrix)    
     i=data.loc[data['movie_title']==v].index[0]
    
-    lst=list(enumerate(sim[i]))
+    lst=list(enumerate(sim[i]))         #assigning an index for referencing the item later.
     lst=sorted(lst,key=lambda x:x[1],reverse=True)
     #print(lst[1:13])
     l=[]
@@ -71,7 +72,7 @@ l1=ttk.Label(window,text='select mavie name').grid(column=0,row=0)
 v=tk.StringVar()
 ComboGrp1=ttk.Combobox(window,width=70,textvariable=v)
 ComboGrp1.grid(column=0,row=1)
- ComboGrp1['values']=(val)
+ComboGrp1['values']=(val)
 
 btn1=ttk.Button(window,text='submit',command=selectedFunction)
 btn1.grid(column=0,row=2)
